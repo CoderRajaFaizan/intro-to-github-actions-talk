@@ -38,14 +38,13 @@ jobs:
         reporter: dotnet-trx
       
     - name: Publish
-      run: |
-        dotnet publish "${{ github.workspace }}/mywebapp/src/mywebapp.csproj" -c Release -o mywebapp
-    
+      run: dotnet publish "./mywebapp/src/mywebapp.csproj" -c Release -o "./mywebapp_publish"
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4
       with:
         name: mywebappbuildartifacts
-        path: mywebapp/**
+        path: ./mywebapp_publish/**
         if-no-files-found: error
         retention-days: 90
 
