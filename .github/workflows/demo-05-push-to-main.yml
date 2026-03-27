@@ -78,7 +78,7 @@ jobs:
     - name: 'Run Azure webapp deploy'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: mywebapp-actions
+        app-name: eeshah-webapp-2026
         package: 'mywebappbuildartifacts'
         slot-name: 'dev'   
         
@@ -112,7 +112,7 @@ jobs:
     - name: 'Run Azure webapp deploy'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: mywebapp-actions
+        app-name: eeshah-webapp-2026
         package: 'mywebappbuildartifacts'
         slot-name: 'qa'   
         
@@ -148,5 +148,5 @@ jobs:
     - name: 'Run Azure webapp deploy'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: mywebapp-actions
+        app-name: eeshah-webapp-2026
         package: 'mywebappbuildartifacts'
