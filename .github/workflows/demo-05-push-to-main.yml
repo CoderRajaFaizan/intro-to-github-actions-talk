@@ -17,7 +17,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     
     - name: Install dependencies
       run: dotnet restore "${{ github.workspace }}/mywebapp/mywebapp.sln"
@@ -62,7 +62,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
@@ -80,7 +80,7 @@ jobs:
       with: 
         app-name: eeshah-webapp-2026
         package: 'mywebappbuildartifacts'
-        slot-name: 'dev'   
+       # slot-name: 'dev'   
         
   deploy-QA:
     name: "Deploy To Azure QA env"
@@ -96,7 +96,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
@@ -114,7 +114,7 @@ jobs:
       with: 
         app-name: eeshah-webapp-2026
         package: 'mywebappbuildartifacts'
-        slot-name: 'qa'   
+       # slot-name: 'qa'   
         
   deploy-PROD:
     name: "Deploy To Azure PROD env"
@@ -132,7 +132,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
