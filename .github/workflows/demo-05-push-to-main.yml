@@ -10,16 +10,15 @@ permissions:
   contents: read
   actions: read
   checks: write
-  
+
 jobs:
   build-app:
     name: "Build App"
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v5
       
-    - name: Setup .NET 8
+    - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 8.0.x
@@ -44,30 +43,27 @@ jobs:
         reporter: dotnet-trx
       
     - name: Publish
-      run: |
-        dotnet publish "${{ github.workspace }}/mywebapp/src/mywebapp.csproj" -c Release -o mywebapp
-    
+      run: dotnet publish "./mywebapp/src/mywebapp.csproj" -c Release -o "./mywebapp_publish"
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4
       with:
         name: mywebappbuildartifacts
-        path: mywebapp/**
+        path: ./mywebapp_publish/**
         if-no-files-found: error
         retention-days: 90
 
   deploy-DEV:
     name: "Deploy To Azure DEV env"
     runs-on: ubuntu-latest
-    needs:
-      - build-app
+    needs: build-app
     environment:
       name: 'DEMO05_DEV'
       url: 'https://mywebapp-actions-dev.azurewebsites.net'
-
     steps:
     - uses: actions/checkout@v5
       
-    - name: Setup .NET 8
+    - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 8.0.x
@@ -83,26 +79,24 @@ jobs:
         name: 'mywebappbuildartifacts'
         path: 'mywebappbuildartifacts'
    
-    - name: 'Deploy to Azure Web App'
+    - name: 'Run Azure webapp deploy'
       uses: azure/webapps-deploy@v3
       with: 
         app-name: mywebapp-actions
         package: 'mywebappbuildartifacts'
-        slot-name: 'dev'   
+        slot-name: 'dev'
         
   deploy-QA:
     name: "Deploy To Azure QA env"
     runs-on: ubuntu-latest
-    needs:
-      - build-app
+    needs: build-app
     environment:
       name: 'DEMO05_QA'
       url: 'https://mywebapp-actions-qa.azurewebsites.net'
-
     steps:
     - uses: actions/checkout@v5
       
-    - name: Setup .NET 8
+    - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 8.0.x
@@ -118,12 +112,12 @@ jobs:
         name: 'mywebappbuildartifacts'
         path: 'mywebappbuildartifacts'
    
-    - name: 'Deploy to Azure Web App'
+    - name: 'Run Azure webapp deploy'
       uses: azure/webapps-deploy@v3
       with: 
         app-name: mywebapp-actions
         package: 'mywebappbuildartifacts'
-        slot-name: 'qa'   
+        slot-name: 'qa'
         
   deploy-PROD:
     name: "Deploy To Azure PROD env"
@@ -134,11 +128,10 @@ jobs:
     environment:
       name: 'DEMO05_PROD'
       url: 'https://mywebapp-actions.azurewebsites.net'
-
     steps:
     - uses: actions/checkout@v5
       
-    - name: Setup .NET 8
+    - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 8.0.x
@@ -154,7 +147,7 @@ jobs:
         name: 'mywebappbuildartifacts'
         path: 'mywebappbuildartifacts'
    
-    - name: 'Deploy to Azure Web App'
+    - name: 'Run Azure webapp deploy'
       uses: azure/webapps-deploy@v3
       with: 
         app-name: mywebapp-actions
