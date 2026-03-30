@@ -59,7 +59,7 @@ jobs:
     needs: build-app
     environment:
       name: 'DEMO05_DEV'
-      url: 'https://mywebapp-actions-dev.azurewebsites.net'
+      url: 'https://mywebapp-actions.azurewebsites.net'
     steps:
     - uses: actions/checkout@v5
       
@@ -79,20 +79,19 @@ jobs:
         name: 'mywebappbuildartifacts'
         path: 'mywebappbuildartifacts'
    
-    - name: 'Run Azure webapp deploy'
+    - name: 'Deploy to Azure Web App DEV'
       uses: azure/webapps-deploy@v3
       with: 
         app-name: mywebapp-actions
         package: 'mywebappbuildartifacts'
-        slot-name: 'dev'
         
   deploy-QA:
     name: "Deploy To Azure QA env"
     runs-on: ubuntu-latest
-    needs: build-app
+    needs: deploy-DEV
     environment:
       name: 'DEMO05_QA'
-      url: 'https://mywebapp-actions-qa.azurewebsites.net'
+      url: 'https://mywebapp-actions.azurewebsites.net'
     steps:
     - uses: actions/checkout@v5
       
@@ -112,12 +111,11 @@ jobs:
         name: 'mywebappbuildartifacts'
         path: 'mywebappbuildartifacts'
    
-    - name: 'Run Azure webapp deploy'
+    - name: 'Deploy to Azure Web App QA'
       uses: azure/webapps-deploy@v3
       with: 
         app-name: mywebapp-actions
         package: 'mywebappbuildartifacts'
-        slot-name: 'qa'
         
   deploy-PROD:
     name: "Deploy To Azure PROD env"
@@ -147,7 +145,7 @@ jobs:
         name: 'mywebappbuildartifacts'
         path: 'mywebappbuildartifacts'
    
-    - name: 'Run Azure webapp deploy'
+    - name: 'Deploy to Azure Web App PROD'
       uses: azure/webapps-deploy@v3
       with: 
         app-name: mywebapp-actions
